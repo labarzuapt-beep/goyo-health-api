@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "api/places.js": {
+      "maxDuration": 10
+    }
+  }
+}
