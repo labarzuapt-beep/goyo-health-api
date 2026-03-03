@@ -13,8 +13,12 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Missing lat or lng' });
   }
 
-  const apiKey = 'AIzaSyB44oDKKENbWZCuKok0bnaOlHtlk0UNzVU';
-  
+  const apiKey = process.env.GOOGLE_PLACES_API_KEY;
+
+  if (!apiKey) {
+    return res.status(500).json({ error: 'API key not configured' });
+  }
+
   let keyword, placeType;
   
   switch(type) {
@@ -65,19 +69,25 @@ export default async function handler(req, res) {
       return res.status(200).json(broaderData);
     }
     
-    res.status(200).json(data);
+    return res.status(200).json(data);
+
   } catch (error) {
     console.error('Error:', error);
-    res.status(500).json({ error: 'Failed to fetch' });
+    return res.status(500).json({ error: 'Failed to fetch places data' });
   }
 }
 ```
 
-- Click "Commit new file"
+**After pasting this into `places.js` on GitHub, do these 3 things:**
 
-**4. Your repo should now have:**
+1. **Delete** the old `api/index.js` file from GitHub
+2. **Add the environment variable** in Vercel:
+   - Vercel Dashboard → your project → **Settings** → **Environment Variables**
+   - Name: `GOOGLE_PLACES_API_KEY`
+   - Value: your Google API key
+   - Click Save
+3. **Redeploy** — go to the **Deployments** tab in Vercel and click **Redeploy**
+
+Then test it at:
 ```
-goyo-health-api/
-├── api/
-│   └── places.js
-└── README.md
+https://goyo-health-api.vercel.app/api/places?lat=25.7617&lng=-80.1918&type=pharmacy
