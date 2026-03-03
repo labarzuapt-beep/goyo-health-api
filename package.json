@@ -1,0 +1,14 @@
+{
+  "type": "module"
+}
+```
+
+5. Click **Commit changes**
+
+**Your structure should then look like:**
+```
+goyo-health-api/
+├── api/
+│   └── places.js
+├── README.md
+└── package.json   ← new file here at root
